@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   mem_calloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 13:05:52 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/17 02:52:54 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/17 18:13:32 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/17 18:13:33 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	ft_free(void **addr)
+void	*mem_calloc(size_t nmemb, size_t size)
 {
-	free(*addr);
-	*addr = NULL;
-}
+	void	*ptr;
 
-void	ft_vfree(int count, ...)
-{
-	int		i;
-	va_list	lst;
-	void	**tofree;
-
-	i = 0;
-	va_start(lst, count);
-	while (i < count)
-	{
-		tofree = va_arg(lst, void *);
-		free(*tofree);
-		*tofree = NULL;
-		i++;
-	}
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	ptr = malloc(nmemb * size);
+	if (!ptr)
+		return (NULL);
+	mem_memset(ptr, 0, nmemb * size);
+	return (ptr);
 }

@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_freetab.c                                       :+:      :+:    :+:   */
+/*   mem_memchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 13:02:37 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/17 02:44:41 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/17 18:13:25 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/17 18:13:26 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	ft_freetab(void **tab)
+void	*mem_memchr(const void *s, int c, size_t n)
 {
-	int	i;
+	const unsigned char	*p;
 
-	i = 0;
-	while (tab[i] != NULL)
+	p = s;
+	while (n-- != 0)
 	{
-		ft_free(tab + i);
-		i++;
+		if (*p == (unsigned char)c)
+		{
+			return ((void *)p);
+		}
+		p++;
 	}
-	ft_free((void **) &tab);
+	return (NULL);
 }

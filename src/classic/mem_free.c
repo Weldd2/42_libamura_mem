@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   mem_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 20:20:49 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/17 02:52:41 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/17 18:12:51 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/17 18:12:51 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
+void	mem_free(void **addr)
 {
-	size_t	min_size;
-	void	*new_ptr;
+	free(*addr);
+	*addr = NULL;
+}
 
-	if (new_size == 0)
+void	mem_vfree(int count, ...)
+{
+	int		i;
+	va_list	lst;
+	void	**tofree;
+
+	i = 0;
+	va_start(lst, count);
+	while (i < count)
 	{
-		free(ptr);
-		return (NULL);
+		tofree = va_arg(lst, void *);
+		free(*tofree);
+		*tofree = NULL;
+		i++;
 	}
-	if (ptr == NULL)
-		return (malloc(new_size));
-	new_ptr = malloc(new_size);
-	if (new_ptr == NULL)
-		return (NULL);
-	if (old_size < new_size)
-		min_size = old_size;
-	else
-		min_size = new_size;
-	ft_memcpy(new_ptr, ptr, min_size);
-	free(ptr);
-	return (new_ptr);
 }

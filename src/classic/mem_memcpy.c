@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   mem_memcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 14:42:42 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 02:44:41 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/17 18:12:32 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/17 18:12:33 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+void	*mem_memcpy(void *dest, const void *src, size_t n)
 {
-	const unsigned char	*p;
+	unsigned char	*src_cpy;
+	unsigned char	*dest_cpy;
 
-	p = s;
-	while (n-- != 0)
+	if (src == NULL && dest == NULL)
+		return (NULL);
+	src_cpy = (unsigned char *)src;
+	dest_cpy = (unsigned char *)dest;
+	while (n > 0)
 	{
-		if (*p == (unsigned char)c)
-		{
-			return ((void *)p);
-		}
-		p++;
+		*dest_cpy = *src_cpy;
+		dest_cpy++;
+		src_cpy++;
+		n--;
 	}
-	return (NULL);
+	return (dest);
 }

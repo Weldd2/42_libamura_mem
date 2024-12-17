@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   mem_freetab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 12:01:28 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 02:44:41 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/17 18:12:44 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/17 18:12:44 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	*ft_memmove(void *dest, void *src, size_t n)
+void	mem_freetab(void **tab)
 {
-	char	*d;
-	char	*s;
+	int	i;
 
-	d = dest;
-	s = src;
-	if (dest == NULL && src == NULL)
-		return (NULL);
-	if (d < s)
+	i = 0;
+	while (tab[i] != NULL)
 	{
-		while (n--)
-			*(unsigned char *)d++ = *(unsigned char *)s++;
+		mem_free(tab + i);
+		i++;
 	}
-	else
-	{
-		while (n--)
-			*((unsigned char *)(d + n)) = *((unsigned char *)(s + n));
-	}
-	return (dest);
+	mem_free((void **) &tab);
 }

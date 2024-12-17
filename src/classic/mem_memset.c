@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   mem_memset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 09:21:11 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 02:52:47 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/17 18:13:11 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/17 18:13:11 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+void	*mem_memset(void *s, int c, size_t n)
 {
-	void	*ptr;
+	unsigned char	*ptr;
 
-	if (nmemb == 0 || size == 0)
-		return (malloc(0));
-	ptr = malloc(nmemb * size);
-	if (!ptr)
-		return (NULL);
-	ft_memset(ptr, 0, nmemb * size);
-	return (ptr);
+	ptr = (unsigned char *)s;
+	while (n > 0)
+	{
+		*ptr = (unsigned char)c;
+		ptr++;
+		n--;
+	}
+	return (s);
 }

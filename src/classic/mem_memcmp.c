@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   mem_memcmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 11:38:10 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 02:44:41 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/17 18:13:21 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/17 18:13:21 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+int	mem_memcmp(const void *s1, const void *s2, size_t n)
 {
-	unsigned char	*src_cpy;
-	unsigned char	*dest_cpy;
+	unsigned char	*s1_cpy;
+	unsigned char	*s2_cpy;
 
-	if (src == NULL && dest == NULL)
-		return (NULL);
-	src_cpy = (unsigned char *)src;
-	dest_cpy = (unsigned char *)dest;
+	s1_cpy = (unsigned char *)s1;
+	s2_cpy = (unsigned char *)s2;
 	while (n > 0)
 	{
-		*dest_cpy = *src_cpy;
-		dest_cpy++;
-		src_cpy++;
+		if (*s1_cpy != *s2_cpy)
+			return (*s1_cpy - *s2_cpy);
 		n--;
+		s1_cpy++;
+		s2_cpy++;
 	}
-	return (dest);
+	return (0);
 }

@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*   mem_realloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 14:42:42 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 02:44:41 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/17 18:13:06 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/17 18:13:06 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
+void	*mem_realloc(void *ptr, size_t old_size, size_t new_size)
 {
-	unsigned char	*s1_cpy;
-	unsigned char	*s2_cpy;
+	size_t	min_size;
+	void	*new_ptr;
 
-	s1_cpy = (unsigned char *)s1;
-	s2_cpy = (unsigned char *)s2;
-	while (n > 0)
+	if (new_size == 0)
 	{
-		if (*s1_cpy != *s2_cpy)
-			return (*s1_cpy - *s2_cpy);
-		n--;
-		s1_cpy++;
-		s2_cpy++;
+		free(ptr);
+		return (NULL);
 	}
-	return (0);
+	if (ptr == NULL)
+		return (malloc(new_size));
+	new_ptr = malloc(new_size);
+	if (new_ptr == NULL)
+		return (NULL);
+	if (old_size < new_size)
+		min_size = old_size;
+	else
+		min_size = new_size;
+	mem_memcpy(new_ptr, ptr, min_size);
+	free(ptr);
+	return (new_ptr);
 }
