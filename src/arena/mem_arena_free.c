@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mem.h                                              :+:      :+:    :+:   */
+/*   mem_free_arena.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 20:15:45 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/18 20:53:20 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/18 20:57:27 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/18 20:59:23 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MEM_H
-# define MEM_H
+#include "mem.h"
 
-# include "mem_classic.h"
-# include "mem_arena.h"
-# include "mem_mgc.h"
+void	mem_arena_free(void)
+{
+	t_mem_arena_block	**arena;
+	t_mem_arena_block	*temp;
+	t_mem_arena_block	*next;
 
-#endif
+	arena = mem_arena_head();
+	if (*arena == NULL)
+		return ;
+	temp = *arena;
+	while (temp != NULL)
+	{
+		next = temp->next;
+		free(temp->block);
+		free(temp);
+		temp = next;
+	}
+	*arena = NULL;
+}

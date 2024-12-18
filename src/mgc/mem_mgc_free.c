@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mem.h                                              :+:      :+:    :+:   */
+/*   mem_mgc_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 20:15:45 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/18 20:53:20 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/18 20:58:41 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/18 21:31:05 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MEM_H
-# define MEM_H
+#include "mem.h"
 
-# include "mem_classic.h"
-# include "mem_arena.h"
-# include "mem_mgc.h"
+void	mem_mgc_free()
+{
+	t_mem_mgc_block	*current;
+	t_mem_mgc_block	*tmp;
 
-#endif
+	current = mem_mgc_head();
+	while (current)
+	{
+		tmp = current->next;
+		if (current->block != NULL)
+			current->free_func(current->block);
+		current = tmp->next;
+	}
+}

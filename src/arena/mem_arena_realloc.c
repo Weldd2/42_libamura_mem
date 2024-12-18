@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mem.h                                              :+:      :+:    :+:   */
+/*   mem_arena_realloc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 20:15:45 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/18 20:53:20 by antoinemura      ###   ########.fr       */
+/*   Created: 2024/12/17 18:14:22 by antoinemura       #+#    #+#             */
+/*   Updated: 2024/12/18 20:31:21 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MEM_H
-# define MEM_H
+#include "mem.h"
 
-# include "mem_classic.h"
-# include "mem_arena.h"
-# include "mem_mgc.h"
+void	*mem_arena_realloc(void *ptr, size_t new_size)
+{
+	void	*new;
 
-#endif
+	new = mem_arena_alloc(new_size);
+	mem_memcpy(ptr, new, new_size);
+	return (new);
+}
