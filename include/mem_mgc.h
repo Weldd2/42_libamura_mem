@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:48:09 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/18 21:29:42 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/12/18 23:47:46 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,93 @@ typedef struct s_mem_mgc_block
 	void					(*free_func)(void *);
 }	t_mem_mgc_block;
 
-t_mem_mgc_block	*mem_mgc_head();
+/**
+ * @brief Libère tous les blocs de mémoire gérés par le gestionnaire de mémoire magique.
+ *
+ * La fonction `mem_mgc_free()` parcourt la liste interne de tous les blocs de mémoire
+ * gérés et appelle, pour chaque bloc, la fonction de libération qui lui est associée.
+ * Elle libère ensuite la structure interne de suivi, remettant ainsi le gestionnaire de
+ * mémoire dans un état vide. Après l'appel à cette fonction, tous les blocs alloués via
+ * ce gestionnaire sont considérés comme invalides.
+ *
+ * @warning
+ * - Après l'appel de cette fonction, tous les pointeurs retournés précédemment par le
+ *   gestionnaire ne doivent plus être utilisés.
+ * - Cette fonction n'est pas thread-safe. Si vous utilisez ce gestionnaire dans un contexte
+ *   multi-threadé, protégez l'accès par un mécanisme de synchronisation approprié.
+ *
+ * @see mem_mgc_alloc(), mem_mgc_calloc(), mem_mgc_head(), mem_mgc_add_block(), mem_mgc_create_block()
+ */
+void mem_mgc_free();
 
-t_mem_mgc_block	*mem_mgc_add_block(size_t size, void (*free_func)(void *));
+/**
+ * @brief Retourne l'adresse du pointeur vers la tête de la liste interne des blocs gérés.
+ *
+ * La fonction `mem_mgc_head()` renvoie un double pointeur sur la tête de la liste chaînée
+ * interne utilisée par le gestionnaire de mémoire magique. Chaque appel d'allocation ou
+ * d'ajout manuel de bloc modifie cette liste.
+ *
+ * @return t_mem_mgc_block** Un double pointeur vers le premier élément de la liste de blocs gérés.
+ *
+ * @note Cette fonction est principalement à usage interne pour le gestionnaire de mémoire.
+ *       L'utiliser directement nécessite une bonne compréhension du fonctionnement interne.
+ *
+ * @warning Manipuler la liste en dehors des fonctions fournies peut entraîner des fuites
+ *          de mémoire ou des comportements indéfinis.
+ *
+ * @see mem_mgc_add_block(), mem_mgc_create_block(), mem_mgc_alloc(), mem_mgc_calloc()
+ */
+t_mem_mgc_block **mem_mgc_head();
 
-void			(*handle_mgc_args(size_t size, ...))(void *);
+/**
+ * @brief Ajoute un bloc de mémoire déjà alloué au gestionnaire de mémoire magique.
+ *
+ * La fonction `mem_mgc_add_block()` prend en paramètre un pointeur vers un bloc de mémoire 
+ * déjà alloué par d'autres moyens (par exemple `malloc`), et l'ajoute à la liste interne des 
+ * blocs gérés. Une fonction de libération personnalisée peut être spécifiée ; sinon, `free`
+ * sera utilisée par défaut. Ainsi, le bloc sera automatiquement libéré lorsque `mem_mgc_free()`
+ * sera appelé.
+ *
+ * @param block Le pointeur vers le bloc de mémoire déjà alloué.
+ * @param free_func Un pointeur vers une fonction personnalisée de libération mémoire (de type 
+ *                  `void (*)(void *)`). Si `NULL`, la fonction standard `free` sera utilisée.
+ *
+ * @return void* Le pointeur vers le bloc ajouté, ou `NULL` en cas d'échec.
+ *
+ * @warning
+ * - Ne pas libérer manuellement ce bloc par d'autres moyens après l'avoir ajouté. 
+ *   Le gestionnaire s'en occupera lors de `mem_mgc_free()`.
+ * - Cette fonction n'est pas thread-safe. En environnement multi-threadé, protégez son
+ *   appel par un mutex ou un autre mécanisme de synchronisation.
+ *
+ * @see mem_mgc_create_block(), mem_mgc_free(), mem_mgc_alloc(), mem_mgc_calloc()
+ */
+void *mem_mgc_add_block(void *block, void (*free_func)(void *));
+
+/**
+ * @brief Alloue un nouveau bloc de mémoire et l'enregistre dans la liste interne des blocs gérés.
+ *
+ * La fonction `mem_mgc_create_block()` effectue une nouvelle allocation mémoire de la taille 
+ * spécifiée et l'ajoute au gestionnaire de mémoire magique, accompagnée d'une fonction de 
+ * libération (personnalisée ou `free` par défaut). Le bloc sera ainsi automatiquement libéré 
+ * lors de l'appel à `mem_mgc_free()`.
+ *
+ * @param size La taille, en octets, du bloc de mémoire à allouer.
+ * @param free_func Un pointeur vers une fonction personnalisée de libération mémoire (de type
+ *                  `void (*)(void *)`). Si `NULL`, la fonction standard `free` sera utilisée.
+ *
+ * @return void* Un pointeur vers le bloc de mémoire nouvellement alloué.
+ *
+ * @exception En cas d'échec d'allocation (du bloc ou de la structure interne), la fonction 
+ *            appelle `exit(EXIT_FAILURE)` et termine le programme.
+ *
+ * @warning
+ * - Cette fonction n'est pas thread-safe.
+ * - En cas d'échec d'allocation, le programme s'arrêtera.
+ *
+ * @see mem_mgc_add_block(), mem_mgc_free(), mem_mgc_alloc(), mem_mgc_calloc()
+ */
+void *mem_mgc_create_block(size_t size, void (*free_func)(void *));
 
 /**
  * @brief Alloue de la mémoire avec gestion automatique (gestionnaire de mémoire magique).

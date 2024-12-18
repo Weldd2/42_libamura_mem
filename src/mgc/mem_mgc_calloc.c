@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:35:11 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/18 21:30:38 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/12/18 22:23:12 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void	*mem_mgc_calloc(size_t nmemb, size_t size, ... )
 	void	(*free_func)(void *);
 	void	*ptr;
 
-	size_t	total_size = nmemb * size;
 	va_start(args, size);
-	free_func = handle_mgc_args(size, args);
+	free_func = va_arg(args, void (*)(void *));
 	va_end(args);
-	ptr = mem_mgc_alloc(total_size, free_func);
+	if (free_func == NULL)
+		free_func = free;
+	ptr = mem_mgc_alloc(nmemb * size, free_func);
 	if (ptr)
-		mem_memset(ptr, 0, total_size);
+		mem_memset(ptr, 0, nmemb * size);
 	return (ptr);
 }
