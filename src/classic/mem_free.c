@@ -6,31 +6,18 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 18:12:51 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/17 18:12:51 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/09 23:32:02 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	mem_free(void **addr)
+void	mem_free(void *ptr)
 {
-	free(*addr);
-	*addr = NULL;
-}
+	t_mem_header *header;
 
-void	mem_vfree(int count, ...)
-{
-	int		i;
-	va_list	lst;
-	void	**tofree;
-
-	i = 0;
-	va_start(lst, count);
-	while (i < count)
-	{
-		tofree = va_arg(lst, void *);
-		free(*tofree);
-		*tofree = NULL;
-		i++;
-	}
+	if (!ptr)
+		return ;
+	header = (t_mem_header *)ptr - 1;
+	free(header);
 }

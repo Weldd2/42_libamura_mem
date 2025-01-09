@@ -6,32 +6,30 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 18:13:06 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/17 18:13:06 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/09 23:19:07 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	*mem_realloc(void *ptr, size_t old_size, size_t new_size)
+void	*mem_realloc(void *ptr, size_t size)
 {
-	size_t	min_size;
-	void	*new_ptr;
+	t_mem_header	*header;
+	void			*new_ptr;
+	size_t			old_size;
+	size_t			size_to_cpy;
 
-	if (new_size == 0)
-	{
-		free(ptr);
+	if (!ptr)
 		return (NULL);
-	}
-	if (ptr == NULL)
-		return (malloc(new_size));
-	new_ptr = malloc(new_size);
-	if (new_ptr == NULL)
+	header = (t_mem_header*)ptr - 1;
+	old_size = header->size;
+	new_ptr = mem_malloc(size);
+	if (!new_ptr)
 		return (NULL);
-	if (old_size < new_size)
-		min_size = old_size;
-	else
-		min_size = new_size;
-	mem_memcpy(new_ptr, ptr, min_size);
-	free(ptr);
+	size_to_cpy = old_size;
+	if (old_size > size)
+		size_to_cpy = size;
+	mem_memcpy(new_ptr, ptr, size_to_cpy);
+	mem_free(ptr);
 	return (new_ptr);
 }

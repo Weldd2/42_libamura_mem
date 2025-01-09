@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mem_calloc.c                                       :+:      :+:    :+:   */
+/*   mem_malloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 18:13:32 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/09 23:20:47 by antoinemura      ###   ########.fr       */
+/*   Created: 2025/01/09 23:09:20 by antoinemura       #+#    #+#             */
+/*   Updated: 2025/01/09 23:22:19 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	*mem_calloc(size_t nmemb, size_t size)
+void	*mem_malloc(size_t size)
 {
-	void	*ptr;
+	t_mem_header	*header;
+	size_t			total_size;
 
-	if (nmemb == 0 || size == 0)
-		return (mem_malloc(0));
-	ptr = mem_malloc(nmemb * size);
-	if (!ptr)
+	total_size = sizeof(t_mem_header) + size;
+	header = malloc(total_size);
+	if (!header)
 		return (NULL);
-	mem_memset(ptr, 0, nmemb * size);
-	return (ptr);
+	header->size = size;
+	return (void(*))(header + 1);
 }
