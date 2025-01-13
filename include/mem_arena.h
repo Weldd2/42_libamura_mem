@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:48:28 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/08 19:45:44 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:29:49 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void				*mem_arena_alloc(size_t size);
  *                ou NULL si l'allocation échoue.
  */
 void				*mem_arena_calloc(size_t nmemb, size_t size);
-
 
 /**
  * @brief Réalloue un bloc de mémoire dans l'arène.

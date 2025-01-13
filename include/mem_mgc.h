@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:48:09 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/13 20:24:40 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:29:32 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_mem_mgc_block
  * @see mem_mgc_alloc(), mem_mgc_calloc(), mem_mgc_head(), mem_mgc_add_block(), 
  *      mem_mgc_create_block()
  */
-void mem_mgc_free(void);
+void			mem_mgc_free(void);
 
 /**
  * @brief Returns the address of the pointer to the head of the internal list of 
@@ -64,7 +64,7 @@ void mem_mgc_free(void);
  * @see mem_mgc_add_block(), mem_mgc_create_block(), mem_mgc_alloc(), 
  *      mem_mgc_calloc()
  */
-t_mem_mgc_block **mem_mgc_head(void);
+t_mem_mgc_block	**mem_mgc_head(void);
 
 /**
  * @brief Adds an already allocated memory block to the memory manager.
@@ -90,7 +90,7 @@ t_mem_mgc_block **mem_mgc_head(void);
  * @see mem_mgc_create_block(), mem_mgc_free(), mem_mgc_alloc(), 
  *      mem_mgc_calloc().
  */
-void *mem_mgc_add_block(void *block, void (*free_func)(void *));
+void			*mem_mgc_add_block(void *block, void (*free_func)(void *));
 
 /**
  * @brief Allocates a new memory block and registers it in the internal list of 
@@ -116,7 +116,7 @@ void *mem_mgc_add_block(void *block, void (*free_func)(void *));
  *
  * @see mem_mgc_add_block(), mem_mgc_free(), mem_mgc_alloc(), mem_mgc_calloc()
  */
-void *mem_mgc_create_block(size_t size, void (*free_func)(void *));
+void			*mem_mgc_create_block(size_t size, void (*free_func)(void *));
 
 /**
  * @brief Allocates memory with automatic management (memory manager).
@@ -178,7 +178,7 @@ void *mem_mgc_create_block(size_t size, void (*free_func)(void *));
  *
  * @see mem_mgc_free()
  */
-void	*mem_mgc_alloc(size_t size, void (*free_func)(void *));
+void			*mem_mgc_alloc(size_t size, void (*free_func)(void *));
 
 /**
  * @brief Allocates memory and initializes it to zero with automatic management.
@@ -232,6 +232,7 @@ void	*mem_mgc_alloc(size_t size, void (*free_func)(void *));
  *
  * @see mem_mgc_alloc(), mem_mgc_free()
  */
-void	*mem_mgc_calloc(size_t nmemb, size_t size, void (*free_func)(void *));
+void			*mem_mgc_calloc(size_t nmemb, size_t size, \
+			void (*free_func)(void *));
 
 #endif
