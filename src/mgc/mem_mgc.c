@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:18:21 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/07 11:57:02 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 16:13:49 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ void	*mem_mgc_add_block(void *block, void (*free_func)(void *))
 	t_mem_mgc_block	**head;
 
 	head = mem_mgc_head();
-	new = malloc(sizeof(t_mem_mgc_block));
+	new = mem_malloc(sizeof(t_mem_mgc_block));
 	if (!new)
 		exit(EXIT_FAILURE);
 	new->block = block;
 	if (!new->block)
 	{
-		free(new);
+		mem_free(new);
 		exit(EXIT_FAILURE);
 	}
 	new->free_func = free_func;
