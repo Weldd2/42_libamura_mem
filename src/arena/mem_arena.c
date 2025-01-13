@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 18:14:22 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/18 20:57:36 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:11:49 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_mem_arena_block	**mem_arena_head(void)
 
 void	mem_arena_add_block(t_mem_arena_block **arena, size_t size)
 {
-	size_t					block_size;
+	size_t				block_size;
 	t_mem_arena_block	*new_block;
 
 	if (size == 0)

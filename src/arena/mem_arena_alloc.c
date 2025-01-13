@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:55:53 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/08 18:50:38 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:11:57 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*mem_arena_alloc(size_t size)
 {
 	t_mem_arena_block	**arena;
-	static size_t			pos = 0;
+	static size_t		pos = 0;
 
 	if (size == 0)
 		return (NULL);
