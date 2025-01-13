@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 23:09:20 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/09 23:22:19 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:14:55 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ void	*mem_malloc(size_t size)
 	if (!header)
 		return (NULL);
 	header->size = size;
-	return (void(*))(header + 1);
+	return ((void *)(header + 1));
 }

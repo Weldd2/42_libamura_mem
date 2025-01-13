@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 18:13:06 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/11 16:16:03 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:14:15 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*mem_realloc(void *ptr, size_t size)
 
 	if (!ptr)
 		return (mem_malloc(size));
-	header = (t_mem_header*)ptr - 1;
+	header = (t_mem_header *)ptr - 1;
 	old_size = header->size;
 	new_ptr = mem_malloc(size);
 	if (!new_ptr)
