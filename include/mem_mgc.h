@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:48:09 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/13 20:16:11 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:24:40 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,35 +25,44 @@ typedef struct s_mem_mgc_block
 /**
  * @brief Frees all memory blocks managed by the memory manager.
  *
- * The `mem_mgc_free()` function traverses the internal list of all managed memory blocks
- * and calls the associated free function for each block. It then frees the internal tracking
- * structures, resetting the memory manager to an empty state. After calling this function,
- * all memory blocks allocated via this manager are considered invalid.
+ * The `mem_mgc_free()` function traverses the internal list of all managed 
+ * memory blocks and calls the associated free function for each block. It then 
+ * frees the internal tracking structures, resetting the memory manager to an 
+ * empty state. After calling this function, all memory blocks allocated via 
+ * this manager are considered invalid.
  *
  * @warning
- * - After calling this function, all pointers previously returned by the manager must no longer be used.
- * - This function is not thread-safe. If you use this manager in a multi-threaded context,
- *   protect access with an appropriate synchronization mechanism.
+ * - After calling this function, all pointers previously returned by the 
+ *   manager must no longer be used.
+ * - This function is not thread-safe. If you use this manager in a 
+ *   multi-threaded context, protect access with an appropriate synchronization 
+ *   mechanism.
  *
- * @see mem_mgc_alloc(), mem_mgc_calloc(), mem_mgc_head(), mem_mgc_add_block(), mem_mgc_create_block()
+ * @see mem_mgc_alloc(), mem_mgc_calloc(), mem_mgc_head(), mem_mgc_add_block(), 
+ *      mem_mgc_create_block()
  */
 void mem_mgc_free(void);
 
 /**
- * @brief Returns the address of the pointer to the head of the internal list of managed blocks.
+ * @brief Returns the address of the pointer to the head of the internal list of 
+ *        managed blocks.
  *
- * The `mem_mgc_head()` function returns a double pointer to the head of the internal linked list
- * used by the memory manager. Each allocation or manual block addition modifies this list.
+ * The `mem_mgc_head()` function returns a double pointer to the head of the 
+ * internal linked list used by the memory manager. Each allocation or manual 
+ * block addition modifies this list.
  *
- * @return t_mem_mgc_block** A double pointer to the first element of the managed blocks list.
+ * @return t_mem_mgc_block** A double pointer to the first element of the 
+ *         managed blocks list.
  *
  * @note This function is primarily for internal use by the memory manager.
- *       Using it directly requires a good understanding of the internal workings.
+ *       Using it directly requires a good understanding of the internal 
+ *       workings.
  *
- * @warning Manipulating the list outside of the provided functions may lead to memory leaks
- *          or undefined behavior.
+ * @warning Manipulating the list outside of the provided functions may lead 
+ *          to memory leaks or undefined behavior.
  *
- * @see mem_mgc_add_block(), mem_mgc_create_block(), mem_mgc_alloc(), mem_mgc_calloc()
+ * @see mem_mgc_add_block(), mem_mgc_create_block(), mem_mgc_alloc(), 
+ *      mem_mgc_calloc()
  */
 t_mem_mgc_block **mem_mgc_head(void);
 
@@ -61,13 +70,13 @@ t_mem_mgc_block **mem_mgc_head(void);
  * @brief Adds an already allocated memory block to the memory manager.
  *
  * The `mem_mgc_add_block()` function takes a pointer to a memory block
- * that has already been allocated by other means (e.g., `malloc`) and adds it to the
- * internal list of managed blocks. A custom free function can be specified; otherwise, `free`
- * is used by default. This ensures that the block will be automatically freed when `mem_mgc_free()`
- * is called.
+ * that has already been allocated by other means (e.g., `malloc`) and adds it 
+ * to the internal list of managed blocks. A custom free function can be 
+ * specified; otherwise, `free` is used by default. This ensures that the block 
+ * will be automatically freed when `mem_mgc_free()` is called.
  *
  * @param block The pointer to the already allocated memory block.
- * @param free_func A pointer to a custom memory free function (of type `void (*)(void *)`).
+ * @param free_func A pointer to a custom memory free function.
  *                  If `NULL`, the standard `free` function will be used.
  *
  * @return void* The pointer to the added block, or `NULL` on failure.
@@ -75,22 +84,25 @@ t_mem_mgc_block **mem_mgc_head(void);
  * @warning
  * - Do not manually free this block by other means after adding it.
  *   The manager will handle it during `mem_mgc_free()`.
- * - This function is not thread-safe. In a multi-threaded environment, protect its
- *   call with a mutex or another synchronization mechanism.
+ * - This function is not thread-safe. In a multi-threaded environment,
+ *   protect its call with a mutex or another synchronization mechanism.
  *
- * @see mem_mgc_create_block(), mem_mgc_free(), mem_mgc_alloc(), mem_mgc_calloc()
+ * @see mem_mgc_create_block(), mem_mgc_free(), mem_mgc_alloc(), 
+ *      mem_mgc_calloc().
  */
 void *mem_mgc_add_block(void *block, void (*free_func)(void *));
 
 /**
- * @brief Allocates a new memory block and registers it in the internal list of managed blocks.
+ * @brief Allocates a new memory block and registers it in the internal list of 
+ *        managed blocks.
  *
- * The `mem_mgc_create_block()` function performs a new memory allocation of the specified size
- * and adds it to the memory manager, along with a free function (custom or default `free`).
+ * The `mem_mgc_create_block()` function performs a new memory allocation of the
+ * specified size and adds it to the memory manager, along with a free function 
+ * (custom or default `free`).
  * The block will thus be automatically freed when `mem_mgc_free()` is called.
  *
  * @param size The size in bytes of the memory block to allocate.
- * @param free_func A pointer to a custom memory free function (of type `void (*)(void *)`).
+ * @param free_func A pointer to a custom memory free function.
  *                  If `NULL`, the standard `free` function will be used.
  *
  * @return void* A pointer to the newly allocated memory block.
@@ -109,13 +121,15 @@ void *mem_mgc_create_block(size_t size, void (*free_func)(void *));
 /**
  * @brief Allocates memory with automatic management (memory manager).
  *
- * The `mem_mgc_alloc` function allocates a memory block of the specified size and registers it
- * with the memory manager. The allocated memory will be automatically freed when the memory
- * manager is cleared, helping to prevent memory leaks.
+ * The `mem_mgc_alloc` function allocates a memory block of the specified size 
+ * and registers it with the memory manager. The allocated memory will be 
+ * automatically freed when the memory manager is cleared, helping to prevent 
+ * memory leaks.
  *
  * @param size The size in bytes of the memory block to allocate.
- * @param free_func A pointer to a custom memory free function (of type `void (*)(void *)`).
- *                  If `NULL`, the standard `free` function will be used by default.
+ * @param free_func A pointer to a custom memory free function.
+ *                  If `NULL`, the standard `free` function will be used by 
+ *                  default.
  *
  * @return void* A pointer to the allocated memory block, or `NULL` if:
  *               - The requested size is zero.
@@ -123,10 +137,10 @@ void *mem_mgc_create_block(size_t size, void (*free_func)(void *));
  *               - Allocation of a new management block fails.
  *
  * @details
- * This function facilitates memory management by registering each allocated block
- * in an internal list. Each block is associated with a free function that will
- * be called when the entire managed memory is freed. This centralizes memory
- * release management and reduces the risk of memory leaks.
+ * This function facilitates memory management by registering each allocated 
+ * block in an internal list. Each block is associated with a free function that
+ * will be called when the entire managed memory is freed. This centralizes 
+ * memory release management and reduces the risk of memory leaks.
  *
  * **Usage:**
  * ```c
@@ -158,8 +172,9 @@ void *mem_mgc_create_block(size_t size, void (*free_func)(void *));
  * @warning
  * - Ensure you call `mem_mgc_free()` before the end of your program to free
  *   all allocated memory blocks and avoid leaks.
- * - This function is not thread-safe. If your application is multi-threaded, you must
- *   protect calls to `mem_mgc_alloc` with appropriate synchronization mechanisms.
+ * - This function is not thread-safe. If your application is multi-threaded, 
+ *   you must protect calls to `mem_mgc_alloc` with appropriate synchronization 
+ *   mechanisms.
  *
  * @see mem_mgc_free()
  */
@@ -168,23 +183,27 @@ void	*mem_mgc_alloc(size_t size, void (*free_func)(void *));
 /**
  * @brief Allocates memory and initializes it to zero with automatic management.
  *
- * The `mem_mgc_calloc` function allocates memory for an array of `nmemb` elements of
- * `size` bytes each and initializes all bytes to zero. The allocated memory is registered
- * with the memory manager and will be automatically freed when the manager is cleared.
+ * The `mem_mgc_calloc` function allocates memory for an array of `nmemb` 
+ * elements of `size` bytes each and initializes all bytes to zero. 
+ * The allocated memory is registered with the memory manager and will be 
+ * automatically freed when the manager is cleared.
  *
  * @param nmemb Number of elements to allocate.
  * @param size Size of each element in bytes.
- * @param free_func A pointer to a custom memory free function (of type `void (*)(void *)`).
- *                  If `NULL`, the standard `free` function will be used by default.
+ * @param free_func A pointer to a custom memory free function.
+ *                  If `NULL`, the standard `free` function will be used by 
+ *                  default.
  *
- * @return void* A pointer to the allocated and zero-initialized memory, or `NULL` if:
+ * @return void* A pointer to the allocated and zero-initialized memory, 
+ *               or `NULL` if:
  *               - The product `nmemb * size` is zero.
  *               - Memory allocation fails.
  *               - Allocation of a new management block fails.
  *
  * @details
- * This function behaves similarly to `mem_mgc_alloc` but additionally initializes the allocated
- * memory to zero. It is useful for allocating arrays or structures where initialization is required.
+ * This function behaves similarly to `mem_mgc_alloc` but additionally 
+ * initializes the allocated memory to zero. It is useful for allocating arrays
+ * or structures where initialization is required.
  *
  * **Usage:**
  * ```c
@@ -207,8 +226,9 @@ void	*mem_mgc_alloc(size_t size, void (*free_func)(void *));
  * @warning
  * - Ensure you call `mem_mgc_free()` before the end of your program to free
  *   all allocated memory blocks and avoid leaks.
- * - This function is not thread-safe. If your application is multi-threaded, you must
- *   protect calls to `mem_mgc_calloc` with appropriate synchronization mechanisms.
+ * - This function is not thread-safe. If your application is multi-threaded, 
+ *   you must protect calls to `mem_mgc_calloc` with appropriate synchronization
+ *   mechanisms.
  *
  * @see mem_mgc_alloc(), mem_mgc_free()
  */
