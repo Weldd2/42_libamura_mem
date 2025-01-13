@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:18:21 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/13 16:13:49 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:15:49 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	lstadd_front(t_mem_mgc_block **lst, t_mem_mgc_block *new)
 {
 	if (lst == NULL || new == NULL)
-		return;
+		return ;
 	new->next = *lst;
 	*lst = new;
 }
@@ -43,7 +43,7 @@ void	*mem_mgc_add_block(void *block, void (*free_func)(void *))
 	return ((*head)->block);
 }
 
-t_mem_mgc_block	**mem_mgc_head()
+t_mem_mgc_block	**mem_mgc_head(void)
 {
 	static t_mem_mgc_block	*head = NULL;
 

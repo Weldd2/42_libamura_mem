@@ -6,13 +6,13 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:58:41 by antoinemura       #+#    #+#             */
-/*   Updated: 2025/01/13 16:13:55 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:15:58 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-void	mem_mgc_free()
+void	mem_mgc_free(void)
 {
 	t_mem_mgc_block	**head;
 	t_mem_mgc_block	*current;

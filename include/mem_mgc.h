@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:48:09 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/12/28 13:46:40 by antoinemura      ###   ########.fr       */
+/*   Updated: 2025/01/13 20:16:11 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_mem_mgc_block
  *
  * @see mem_mgc_alloc(), mem_mgc_calloc(), mem_mgc_head(), mem_mgc_add_block(), mem_mgc_create_block()
  */
-void mem_mgc_free();
+void mem_mgc_free(void);
 
 /**
  * @brief Returns the address of the pointer to the head of the internal list of managed blocks.
@@ -55,7 +55,7 @@ void mem_mgc_free();
  *
  * @see mem_mgc_add_block(), mem_mgc_create_block(), mem_mgc_alloc(), mem_mgc_calloc()
  */
-t_mem_mgc_block **mem_mgc_head();
+t_mem_mgc_block **mem_mgc_head(void);
 
 /**
  * @brief Adds an already allocated memory block to the memory manager.
